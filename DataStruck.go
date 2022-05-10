@@ -1,5 +1,0 @@
-package DataStruck
-
-func DataStruck() {
-
-}
