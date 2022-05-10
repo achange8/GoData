@@ -1,0 +1,5 @@
+package DataStruck
+
+func DataStruck() {
+
+}
