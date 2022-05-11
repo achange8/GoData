@@ -9,28 +9,57 @@ type Node struct {
 
 func main() {
 	var root *Node
-
+	var tail *Node
 	root = &Node{val: 0}
+	tail = root
 
 	for i := 1; i < 10; i++ {
-		AddNode(root, i)
+		tail = AddNode(tail, i)
 	}
-	node := root
+	PrintNode(root)
 
+	root, tail = DeleteNode(root, root, tail)
+	PrintNode(root)
+
+}
+
+func AddNode(tail *Node, val int) *Node {
+
+	node := &Node{val: val}
+	tail.next = node
+	return node
+}
+
+func DeleteNode(del *Node, root *Node, tail *Node) (*Node, *Node) {
+	if del == root {
+		root = root.next
+		if root == nil {
+			tail = nil
+		}
+		return root, tail
+	}
+
+	prev := root
+	for prev.next != del {
+		prev = prev.next
+	}
+	if del == tail {
+		prev.next = nil
+		tail = prev
+	} else {
+		prev.next = prev.next.next
+	}
+
+	println("Done!")
+	return root, tail
+
+}
+
+func PrintNode(root *Node) {
+	node := root
 	for node.next != nil {
-		fmt.Printf("%d -> ", node.val)
+		fmt.Printf("%d >", node.val)
 		node = node.next
 	}
 	fmt.Printf("%d\n", node.val)
-}
-
-func AddNode(root *Node, val int) {
-	var endP *Node
-	endP = root
-	for endP.next != nil {
-		endP = endP.next
-	}
-
-	node := &Node{val: val}
-	endP.next = node
 }
