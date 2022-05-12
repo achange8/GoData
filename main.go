@@ -4,22 +4,39 @@ import "fmt"
 
 type Node struct {
 	next *Node
+	prev *Node
 	val  int
 }
 
+type LinkedList struct {
+	root *Node
+	tail *Node
+}
+
+func (l *LinkedList) AddNode(val int) {
+	if l.root == nil {
+		l.root = &Node{val: val}
+		l.tail = l.root
+		return
+	}
+	l.tail.next = &Node{val: val}
+	prev := l.tail
+	l.tail = l.tail.next
+	l.tail.prev = prev
+}
+
 func main() {
-	var root *Node
-	var tail *Node
-	root = &Node{val: 0}
-	tail = root
+	list := &LinkedList{}
+	list.AddNode(0)
 
 	for i := 1; i < 10; i++ {
-		tail = AddNode(tail, i)
+		list.AddNode(i)
 	}
-	PrintNode(root)
-
-	root, tail = DeleteNode(root, root, tail)
-	PrintNode(root)
+	list.PrintNode()
+	list.DeleteNode(list.root.next)
+	list.PrintNode()
+	list.DeleteNode(list.tail)
+	list.PrintNode()
 
 }
 
@@ -30,35 +47,31 @@ func AddNode(tail *Node, val int) *Node {
 	return node
 }
 
-func DeleteNode(del *Node, root *Node, tail *Node) (*Node, *Node) {
-	if del == root {
-		root = root.next
-		if root == nil {
-			tail = nil
-		}
-		return root, tail
+func (l *LinkedList) DeleteNode(node *Node) {
+	if node == l.root {
+		l.root = l.root.next
+		l.root.prev = nil
+		node.next = nil
+		return
 	}
 
-	prev := root
-	for prev.next != del {
-		prev = prev.next
-	}
-	if del == tail {
+	prev := node.prev
+
+	if node == l.tail {
 		prev.next = nil
-		tail = prev
+		l.tail.prev = nil
 	} else {
+		node.prev = nil
 		prev.next = prev.next.next
+		prev.next.prev = prev
 	}
-
-	println("Done!")
-	return root, tail
-
+	node.next = nil
 }
 
-func PrintNode(root *Node) {
-	node := root
+func (l *LinkedList) PrintNode() {
+	node := l.root
 	for node.next != nil {
-		fmt.Printf("%d >", node.val)
+		fmt.Printf("%d ->", node.val)
 		node = node.next
 	}
 	fmt.Printf("%d\n", node.val)
