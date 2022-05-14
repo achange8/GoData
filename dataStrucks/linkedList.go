@@ -25,12 +25,17 @@ func (l *LinkedList) AddNode(Val int) {
 	l.Tail.Prev = Prev
 }
 
+func AddNode(Tail *Node, Val int) *Node {
+
+	node := &Node{Val: Val}
+	Tail.Next = node
+	return node
+}
+
 func (l *LinkedList) DeleteNode(node *Node) {
 	if node == l.Root {
 		l.Root = l.Root.Next
-		if l.Root != nil {
-			l.Root.Prev = nil
-		}
+		l.Root.Prev = nil
 		node.Next = nil
 		return
 	}
@@ -40,7 +45,6 @@ func (l *LinkedList) DeleteNode(node *Node) {
 	if node == l.Tail {
 		Prev.Next = nil
 		l.Tail.Prev = nil
-		l.Tail = Prev
 	} else {
 		node.Prev = nil
 		Prev.Next = Prev.Next.Next
@@ -56,22 +60,4 @@ func (l *LinkedList) PrintNode() {
 		node = node.Next
 	}
 	fmt.Printf("%d\n", node.Val)
-}
-
-func (l *LinkedList) Back() int {
-	if l.Tail != nil {
-		return l.Tail.Val
-	}
-	return 0
-}
-
-func (l *LinkedList) PopBack() {
-	if l.Tail == nil {
-		return
-	}
-	l.DeleteNode(l.Tail)
-}
-
-func (l *LinkedList) Empty() bool {
-	return l.Root == nil
 }
