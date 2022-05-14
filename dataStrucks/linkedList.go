@@ -13,51 +13,88 @@ type LinkedList struct {
 	Tail *Node
 }
 
-func (l *LinkedList) AddNode(Val int) {
+func (l *LinkedList) AddNode(val int) {
 	if l.Root == nil {
-		l.Root = &Node{Val: Val}
+		l.Root = &Node{Val: val}
 		l.Tail = l.Root
 		return
 	}
-	l.Tail.Next = &Node{Val: Val}
-	Prev := l.Tail
+	l.Tail.Next = &Node{Val: val}
+	prev := l.Tail
 	l.Tail = l.Tail.Next
-	l.Tail.Prev = Prev
+	l.Tail.Prev = prev
 }
 
-func AddNode(Tail *Node, Val int) *Node {
-
-	node := &Node{Val: Val}
-	Tail.Next = node
-	return node
+func (l *LinkedList) Back() int {
+	if l.Tail != nil {
+		return l.Tail.Val
+	}
+	return 0
 }
 
-func (l *LinkedList) DeleteNode(node *Node) {
+func (l *LinkedList) Front() int {
+	if l.Root != nil {
+		return l.Root.Val
+	}
+	return 0
+}
+
+func (l *LinkedList) Empty() bool {
+	return l.Root == nil
+}
+
+func (l *LinkedList) PopBack() {
+	if l.Tail == nil {
+		return
+	}
+	l.RemoveNode(l.Tail)
+}
+
+func (l *LinkedList) PopFront() {
+	if l.Root == nil {
+		return
+	}
+	l.RemoveNode(l.Root)
+}
+
+func (l *LinkedList) RemoveNode(node *Node) {
 	if node == l.Root {
 		l.Root = l.Root.Next
-		l.Root.Prev = nil
+		if l.Root != nil {
+			l.Root.Prev = nil
+		}
 		node.Next = nil
 		return
 	}
 
-	Prev := node.Prev
+	prev := node.Prev
 
 	if node == l.Tail {
-		Prev.Next = nil
+		prev.Next = nil
 		l.Tail.Prev = nil
+		l.Tail = prev
 	} else {
 		node.Prev = nil
-		Prev.Next = Prev.Next.Next
-		Prev.Next.Prev = Prev
+		prev.Next = prev.Next.Next
+		prev.Next.Prev = prev
 	}
 	node.Next = nil
 }
 
-func (l *LinkedList) PrintNode() {
+func (l *LinkedList) PrintNodes() {
 	node := l.Root
 	for node.Next != nil {
-		fmt.Printf("%d ->", node.Val)
+		fmt.Printf("%d -> ", node.Val)
 		node = node.Next
+	}
+	fmt.Printf("%d\n", node.Val)
+}
+
+func (l *LinkedList) PrintReverse() {
+	node := l.Tail
+	for node.Prev != nil {
+		fmt.Printf("%d -> ", node.Val)
+		node = node.Prev
 	}
 	fmt.Printf("%d\n", node.Val)
 }
