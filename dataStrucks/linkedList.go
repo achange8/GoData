@@ -1,63 +1,63 @@
-package datastrucks
+package dataStrucks
 
 import "fmt"
 
 type Node struct {
-	next *Node
-	prev *Node
-	val  int
+	Next *Node
+	Prev *Node
+	Val  int
 }
 
 type LinkedList struct {
-	root *Node
-	tail *Node
+	Root *Node
+	Tail *Node
 }
 
-func (l *LinkedList) AddNode(val int) {
-	if l.root == nil {
-		l.root = &Node{val: val}
-		l.tail = l.root
+func (l *LinkedList) AddNode(Val int) {
+	if l.Root == nil {
+		l.Root = &Node{Val: Val}
+		l.Tail = l.Root
 		return
 	}
-	l.tail.next = &Node{val: val}
-	prev := l.tail
-	l.tail = l.tail.next
-	l.tail.prev = prev
+	l.Tail.Next = &Node{Val: Val}
+	Prev := l.Tail
+	l.Tail = l.Tail.Next
+	l.Tail.Prev = Prev
 }
 
-func AddNode(tail *Node, val int) *Node {
+func AddNode(Tail *Node, Val int) *Node {
 
-	node := &Node{val: val}
-	tail.next = node
+	node := &Node{Val: Val}
+	Tail.Next = node
 	return node
 }
 
 func (l *LinkedList) DeleteNode(node *Node) {
-	if node == l.root {
-		l.root = l.root.next
-		l.root.prev = nil
-		node.next = nil
+	if node == l.Root {
+		l.Root = l.Root.Next
+		l.Root.Prev = nil
+		node.Next = nil
 		return
 	}
 
-	prev := node.prev
+	Prev := node.Prev
 
-	if node == l.tail {
-		prev.next = nil
-		l.tail.prev = nil
+	if node == l.Tail {
+		Prev.Next = nil
+		l.Tail.Prev = nil
 	} else {
-		node.prev = nil
-		prev.next = prev.next.next
-		prev.next.prev = prev
+		node.Prev = nil
+		Prev.Next = Prev.Next.Next
+		Prev.Next.Prev = Prev
 	}
-	node.next = nil
+	node.Next = nil
 }
 
 func (l *LinkedList) PrintNode() {
-	node := l.root
-	for node.next != nil {
-		fmt.Printf("%d ->", node.val)
-		node = node.next
+	node := l.Root
+	for node.Next != nil {
+		fmt.Printf("%d ->", node.Val)
+		node = node.Next
 	}
-	fmt.Printf("%d\n", node.val)
+	fmt.Printf("%d\n", node.Val)
 }

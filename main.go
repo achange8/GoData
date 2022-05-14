@@ -1,5 +1,7 @@
 package main
 
+import datastrucks "main/dataStrucks"
+
 func main() {
 	list := &datastrucks.LinkedList{}
 	list.AddNode(0)
@@ -8,9 +10,9 @@ func main() {
 		list.AddNode(i)
 	}
 	list.PrintNode()
-	list.DeleteNode(list.root.next)
+	list.DeleteNode(list.Root.Next)
 	list.PrintNode()
-	list.DeleteNode(list.tail)
+	list.DeleteNode(list.Tail)
 	list.PrintNode()
 
 }
