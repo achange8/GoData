@@ -1,4 +1,4 @@
-package dataStrucks
+package datastrucks
 
 import "fmt"
 
