@@ -1,18 +1,17 @@
 package main
 
-import datastrucks "main/dataStrucks"
+import "fmt"
 
 func main() {
-	list := &datastrucks.LinkedList{}
-	list.AddNode(0)
+	stack := []int{}
 
-	for i := 1; i < 10; i++ {
-		list.AddNode(i)
+	for i := 1; i <= 5; i++ {
+		stack = append(stack, i)
 	}
-	list.PrintNode()
-	list.DeleteNode(list.Root.Next)
-	list.PrintNode()
-	list.DeleteNode(list.Tail)
-	list.PrintNode()
 
+	for len(stack) > 0 {
+		var last int
+		last, stack = stack[len(stack)-1], stack[:len(stack)-1]
+		fmt.Println(last)
+	}
 }
