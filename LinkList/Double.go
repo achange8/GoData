@@ -7,5 +7,5 @@ type Node struct {
 }
 
 func linklist() *Node {
-	return *Node
+	return nil
 }
