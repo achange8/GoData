@@ -1,22 +1,24 @@
 package linklist
 
-type SNode[T any] struct {
-	next  *SNode[T]
-	value T
+type Node[T any] struct {
+	next  *Node[T]
+	Value T
 }
 type LinkedList[T any] struct {
-	root *SNode[T]
-	tail *SNode[T]
+	root *Node[T]
+	tail *Node[T]
 
 	count int
 }
 
 // add node back
 func (l *LinkedList[T]) PushBack(value T) {
-	node := &SNode[T]{
-		value: value,
+	node := &Node[T]{
+		Value: value,
 	}
+
 	l.count++
+
 	if l.root == nil {
 		l.root = node
 		l.tail = node
@@ -28,8 +30,8 @@ func (l *LinkedList[T]) PushBack(value T) {
 }
 
 func (l *LinkedList[T]) PushFront(value T) {
-	node := &SNode[T]{
-		value: value,
+	node := &Node[T]{
+		Value: value,
 	}
 	l.count++
 
@@ -42,16 +44,16 @@ func (l *LinkedList[T]) PushFront(value T) {
 	l.root = node
 }
 
-func (l LinkedList[T]) Front() *SNode[T] {
+func (l *LinkedList[T]) Front() *Node[T] {
 	return l.root
 }
 
-func (l LinkedList[T]) Back() *SNode[T] {
+func (l *LinkedList[T]) Back() *Node[T] {
 	return l.tail
 }
 
 // O(N)
-func (l LinkedList[T]) CountNode() int {
+func (l *LinkedList[T]) Count() int {
 	node := l.root
 	cnt := 0
 
@@ -62,12 +64,12 @@ func (l LinkedList[T]) CountNode() int {
 }
 
 // O(1)
-func (l LinkedList[T]) CountNode2() int {
+func (l *LinkedList[T]) Count2() int {
 	return l.count
 }
 
-func (l LinkedList[T]) GetAt(idx int) *SNode[T] {
-	if idx >= l.CountNode2() {
+func (l *LinkedList[T]) GetAt(idx int) *Node[T] {
+	if idx >= l.Count2() {
 		return nil
 	}
 
@@ -82,39 +84,47 @@ func (l LinkedList[T]) GetAt(idx int) *SNode[T] {
 	return nil
 }
 
-func (l *LinkedList[T]) InsertAfter(node *SNode[T], value T) {
-	if !l.isinclude(node) {
+func (l *LinkedList[T]) InsertAfter(node *Node[T], value T) {
+	if !l.isincluded(node) {
 		return
 	}
 
-	newNode := &SNode[T]{
-		value: value,
+	newNode := &Node[T]{
+		Value: value,
 	}
 
 	orgiNext := node.next
 	node.next = newNode
 	newNode.next = orgiNext
 
+	if node == l.tail {
+		l.tail = newNode
+	}
+
 	l.count++
 }
 
-func (l LinkedList[T]) InsertBefore(node *SNode[T], value T) {
+func (l *LinkedList[T]) InsertBefore(node *Node[T], value T) {
 	if node == l.root {
 		l.PushFront(value)
 		return
 	}
-	PrevNode := l.findPrevNode(node)
-	if PrevNode == nil {
+	prevNode := l.FindPrevNode(node)
+	if prevNode == nil {
 		return
 	}
 
-	newNode := &SNode[T]{
-		value: value,
+	newNode := &Node[T]{
+		Value: value,
 	}
 
+	prevNode.next = newNode
+	newNode.next = node
+
+	l.count++
 }
 
-func (l LinkedList[T]) findPrevNode(node *SNode[T]) *SNode[T] {
+func (l *LinkedList[T]) FindPrevNode(node *Node[T]) *Node[T] {
 	inner := l.root
 	for ; inner != nil; inner = inner.next {
 		if inner.next == node {
@@ -124,7 +134,7 @@ func (l LinkedList[T]) findPrevNode(node *SNode[T]) *SNode[T] {
 	return nil
 }
 
-func (l LinkedList[T]) isinclude(node *SNode[T]) bool {
+func (l *LinkedList[T]) isincluded(node *Node[T]) bool {
 	inner := l.root
 
 	for ; inner != nil; inner = inner.next {

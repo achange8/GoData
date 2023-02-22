@@ -14,13 +14,13 @@ func TestPushBack(t *testing.T) {
 	l.PushBack(1)
 
 	assert.NotNil(t, l.root)
-	assert.Equal(t, 1, l.Front().value)
-	assert.Equal(t, 1, l.Back().value)
+	assert.Equal(t, 1, l.Front().Value)
+	assert.Equal(t, 1, l.Back().Value)
 
 	l.PushBack(2)
 	assert.NotNil(t, l.root)
-	assert.Equal(t, 1, l.Front().value)
-	assert.Equal(t, 2, l.Back().value)
+	assert.Equal(t, 1, l.Front().Value)
+	assert.Equal(t, 2, l.Back().Value)
 }
 
 func TestPushFront(t *testing.T) {
@@ -31,25 +31,25 @@ func TestPushFront(t *testing.T) {
 
 	l.PushFront(1)
 	assert.NotNil(t, l.root)
-	assert.Equal(t, 1, l.Front().value)
-	assert.Equal(t, 1, l.Back().value)
+	assert.Equal(t, 1, l.Front().Value)
+	assert.Equal(t, 1, l.Back().Value)
 
 	l.PushFront(2)
 	assert.NotNil(t, l.root)
-	assert.Equal(t, 2, l.Front().value)
-	assert.Equal(t, 1, l.Back().value)
+	assert.Equal(t, 2, l.Front().Value)
+	assert.Equal(t, 1, l.Back().Value)
 
 	l.PushFront(4) // node) 4->2->1
 	assert.NotNil(t, l.root)
-	assert.Equal(t, 4, l.Front().value)
-	assert.Equal(t, 1, l.Back().value)
+	assert.Equal(t, 4, l.Front().Value)
+	assert.Equal(t, 1, l.Back().Value)
 
-	assert.Equal(t, 3, l.CountNode())
-	assert.Equal(t, 3, l.CountNode2())
+	assert.Equal(t, 3, l.Count())
+	assert.Equal(t, 3, l.Count2())
 
-	assert.Equal(t, 4, l.GetAt(0).value)
-	assert.Equal(t, 2, l.GetAt(1).value)
-	assert.Equal(t, 1, l.GetAt(2).value)
+	assert.Equal(t, 4, l.GetAt(0).Value)
+	assert.Equal(t, 2, l.GetAt(1).Value)
+	assert.Equal(t, 1, l.GetAt(2).Value)
 
 }
 
@@ -63,15 +63,44 @@ func TestInsertAfter(t *testing.T) {
 	node := l.GetAt(1)
 	l.InsertAfter(node, 4)
 
-	assert.Equal(t, 4, l.CountNode2())
-	assert.Equal(t, 4, l.GetAt(2).value)
-	assert.Equal(t, 3, l.Back().value)
+	assert.Equal(t, 4, l.Count2())
+	assert.Equal(t, 4, l.GetAt(2).Value)
+	assert.Equal(t, 3, l.Back().Value)
 
-	tempNode := &SNode[int]{
-		value: 100,
+	tempNode := &Node[int]{
+		Value: 100,
 	}
 	l.InsertAfter(tempNode, 200)
 
-	assert.Equal(t, 4, l.CountNode())
-	assert.Equal(t, 4, l.CountNode2())
+	assert.Equal(t, 4, l.Count())
+	assert.Equal(t, 4, l.Count2())
+}
+
+func TestInsertBefore(t *testing.T) {
+	var l LinkedList[int]
+
+	l.PushBack(1)
+	l.PushBack(2)
+	l.PushBack(3) //1423
+	assert.Equal(t, 3, l.Count())
+	assert.Equal(t, 3, l.Count2())
+
+	node := l.GetAt(1)
+	l.InsertBefore(node, 4)
+
+	assert.Equal(t, 4, l.Count())
+	assert.Equal(t, 4, l.Count2())
+	assert.Equal(t, 1, l.GetAt(0).Value)
+	assert.Equal(t, 4, l.GetAt(1).Value)
+	assert.Equal(t, 2, l.GetAt(2).Value)
+	assert.Equal(t, 3, l.GetAt(3).Value)
+	assert.Equal(t, 3, l.Back().Value)
+
+	tempNode := &Node[int]{
+		Value: 100,
+	}
+	l.InsertBefore(tempNode, 200)
+
+	assert.Equal(t, 4, l.Count())
+	assert.Equal(t, 4, l.Count2())
 }
