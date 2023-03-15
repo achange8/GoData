@@ -150,5 +150,28 @@ func (l *LinkedList[T]) PopFront() {
 		return
 	}
 	l.root.next, l.root = nil, l.root.next
+	if l.root == nil {
+		l.tail = nil
+	}
+	l.count--
+}
+
+func (l *LinkedList[T]) RemoveNode(node *Node[T]) {
+	if node == l.root {
+		l.PopFront()
+		return
+	}
+	prev := l.FindPrevNode(node)
+	if prev == nil {
+		return
+	}
+	if node.next == nil {
+		prev.next = nil
+		l.tail = prev
+		l.count--
+		return
+	}
+	prev.next = node.next
+	node.next = nil
 	l.count--
 }

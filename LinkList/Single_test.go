@@ -116,5 +116,56 @@ func TestPopFront(t *testing.T) {
 	assert.Equal(t, 2, l.Count2())
 	assert.Equal(t, 2, l.Front().Value)
 	assert.Equal(t, 3, l.Back().Value)
+	l.PopFront() //3
+	assert.Equal(t, 1, l.Count())
+	assert.Equal(t, 1, l.Count2())
+	assert.Equal(t, 3, l.Front().Value)
+	assert.Equal(t, 3, l.Back().Value)
+
+	l.PopFront() //nil
+	assert.Equal(t, 0, l.Count())
+	assert.Equal(t, 0, l.Count2())
+	assert.Nil(t, l.Front())
+	assert.Nil(t, l.Back())
+
+}
+
+func TestRemoveNode(t *testing.T) {
+	var l LinkedList[int]
+
+	l.PushBack(1)
+	l.PushBack(2)
+	l.PushBack(3)
+	l.PushBack(4)            //1234
+	l.RemoveNode(l.GetAt(1)) //134
+	assert.Equal(t, 3, l.Count())
+	assert.Equal(t, 3, l.Count2())
+	assert.Equal(t, 1, l.Front().Value)
+	assert.Equal(t, 4, l.Back().Value)
+
+	l.RemoveNode(l.GetAt(2)) //13
+	assert.Equal(t, 2, l.Count())
+	assert.Equal(t, 2, l.Count2())
+	assert.Equal(t, 1, l.Front().Value)
+	assert.Equal(t, 3, l.Back().Value)
+
+	l.RemoveNode(l.GetAt(1)) //1
+	assert.Equal(t, 1, l.Count())
+	assert.Equal(t, 1, l.Count2())
+	assert.Equal(t, 1, l.Front().Value)
+	assert.Equal(t, 1, l.Back().Value)
+
+	l.RemoveNode(&Node[int]{
+		Value: 100,
+	})
+	assert.Equal(t, 1, l.Count())
+	assert.Equal(t, 1, l.Count2())
+	assert.Equal(t, 1, l.Front().Value)
+	assert.Equal(t, 1, l.Back().Value)
+	// l.RemoveNode(l.GetAt(0)) //nil
+	// assert.Equal(t, 0, l.Count())
+	// assert.Equal(t, 0, l.Count2())
+	// assert.Nil(t, l.Front())
+	// assert.Nil(t, l.Back())
 
 }
