@@ -162,10 +162,11 @@ func TestRemoveNode(t *testing.T) {
 	assert.Equal(t, 1, l.Count2())
 	assert.Equal(t, 1, l.Front().Value)
 	assert.Equal(t, 1, l.Back().Value)
-	// l.RemoveNode(l.GetAt(0)) //nil
-	// assert.Equal(t, 0, l.Count())
-	// assert.Equal(t, 0, l.Count2())
-	// assert.Nil(t, l.Front())
-	// assert.Nil(t, l.Back())
+
+	l.RemoveNode(l.GetAt(0)) //nil
+	assert.Equal(t, 0, l.Count())
+	assert.Equal(t, 0, l.Count2())
+	assert.Nil(t, l.Front())
+	assert.Nil(t, l.Back())
 
 }
