@@ -144,3 +144,11 @@ func (l *LinkedList[T]) isincluded(node *Node[T]) bool {
 	}
 	return false
 }
+
+func (l *LinkedList[T]) PopFront() {
+	if l.root == nil {
+		return
+	}
+	l.root.next, l.root = nil, l.root.next
+	l.count--
+}
