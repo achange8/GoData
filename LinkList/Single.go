@@ -165,7 +165,7 @@ func (l *LinkedList[T]) RemoveNode(node *Node[T]) {
 	if prev == nil {
 		return
 	}
-	if node.next == nil {
+	if node == l.tail {
 		prev.next = nil
 		l.tail = prev
 		l.count--
