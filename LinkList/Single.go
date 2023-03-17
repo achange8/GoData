@@ -171,7 +171,7 @@ func (l *LinkedList[T]) RemoveNode(node *Node[T]) {
 		l.count--
 		return
 	}
-	l.count--
 	prev.next = node.next
 	node.next = nil
+	l.count--
 }
